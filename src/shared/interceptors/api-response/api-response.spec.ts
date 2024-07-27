@@ -1,7 +1,7 @@
-import { ApiResponse } from './api-response';
+import { ResponseInterceptor } from './api-response';
 
 describe('ApiResponse', () => {
   it('should be defined', () => {
-    expect(new ApiResponse()).toBeDefined();
+    expect(new ResponseInterceptor()).toBeDefined();
   });
 });

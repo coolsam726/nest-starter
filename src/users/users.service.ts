@@ -41,7 +41,8 @@ export class UsersService {
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
-    return await this.model.findByIdAndUpdate(id, updateUserDto);
+    await this.model.findByIdAndUpdate(id, updateUserDto);
+    return (await this.model.findById(id)).id;
   }
 
   async remove(id: string) {

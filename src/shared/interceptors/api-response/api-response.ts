@@ -9,22 +9,16 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import * as dayjs from 'dayjs';
-
-export type Response<T> = {
-  success: boolean;
-  statusCode: number;
-  message: string;
-  payload: T;
-  path: string;
-  timestamp: string;
-};
+import { IApiPayload } from 'src/shared/models/api-payload/api-payload';
 
 @Injectable()
-export class ResponseInterceptor<T> implements NestInterceptor<T, Response<T>> {
+export class ResponseInterceptor<T>
+  implements NestInterceptor<T, IApiPayload<T>>
+{
   intercept(
     context: ExecutionContext,
     next: CallHandler,
-  ): Observable<Response<T>> {
+  ): Observable<IApiPayload<T>> {
     return next.handle().pipe(
       map((res: unknown) => this.responseHandler(res, context)),
       catchError((err: HttpException) =>
@@ -51,7 +45,7 @@ export class ResponseInterceptor<T> implements NestInterceptor<T, Response<T>> {
       payload,
       path: request.url,
       timestamp: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-    } as Response<T>);
+    } as IApiPayload<T>);
   }
 
   responseHandler(res: any, context: ExecutionContext) {
@@ -67,6 +61,6 @@ export class ResponseInterceptor<T> implements NestInterceptor<T, Response<T>> {
       statusCode,
       payload: res,
       timestamp: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-    } as Response<T>;
+    } as IApiPayload<T>;
   }
 }

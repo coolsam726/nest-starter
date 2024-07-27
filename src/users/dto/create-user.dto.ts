@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   IsEmail,
   IsNotEmpty,
@@ -9,13 +10,19 @@ import {
 export class CreateUserDto {
   @IsNotEmpty()
   @IsString()
+  @ApiProperty()
   name: string;
+
+  @ApiProperty()
   @IsNotEmpty()
   @IsEmail()
   email: string;
+
+  @ApiProperty()
   @IsOptional()
   @IsPhoneNumber()
   phone?: string;
+  @ApiProperty()
   @IsOptional()
   @IsString()
   firebaseId?: string;
